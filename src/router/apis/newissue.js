@@ -7,7 +7,7 @@ const loadconfig = require(`${__dirname}/../../utils/loadconfig.js`);
 let count = 1;
 let date = new Date();
 date = [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
-const dirPath = path.join(__dirname, loadconfig.load(`${__dirname}/../../../.local_config.json`).config.issuesrootpath, date);
+const dirPath = path.resolve(loadconfig.load(`${__dirname}/../../../.local_config.json`).config.issuesroot, date);
 
 async function respond (ctx, next) {
   const succ = { result: 'succeed' }
