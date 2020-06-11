@@ -1,0 +1,9 @@
+{
+  "config": {
+    "port": 3000,
+    "address": "127.0.0.1",
+    "issuesroot": "/project/issues",
+    "cacheroot": "/project/frontend/dist/cached",
+    "db": "/project/db/demo.dbfile"
+  }
+}
