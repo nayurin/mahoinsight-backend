@@ -25,6 +25,6 @@ app
   }))
   .use(router.routes())
   .use(router.allowedMethods())
-  .listen(config.localport, config.localaddress, () => {
-    console.log(`Starting server at ${config.localaddress}:${config.localport}...`);
+  .listen(config.port, config.address, () => {
+    console.log(`Starting server at ${config.address}:${config.port}...`);
   });

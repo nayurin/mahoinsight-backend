@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/app.js",
-    "update cache": "node src/utils/cache.js"
+    "updatecache": "node src/utils/cache.js"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",
