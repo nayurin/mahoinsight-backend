@@ -1,3 +1,9 @@
+# db
+db
+
+# config
+.local_config.json
+
 # Logs
 logs
 *.log

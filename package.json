@@ -1,0 +1,19 @@
+{
+  "name": "mahoinsight-backend",
+  "version": "0.1.0",
+  "description": "backend project of mahomaho insight",
+  "main": "app.js",
+  "repository": "git@github.com:nayurin/mahoinsight-backend.git",
+  "author": "nayurin <nayurin@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/app.js",
+    "update cache": "node src/utils/cache.js"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "@koa/router": "^9.0.1",
+    "better-sqlite3": "^7.1.0",
+    "koa": "^2.12.0"
+  }
+}
