@@ -8,27 +8,33 @@ class Parser {
 
   parseOnce (data) {
     if (!this.fields || typeof(data) === 'undefined') return null;
-    const _result = new Array();
+    let line = '';
+    let _result = new Array();
     if (['number', 'string'].includes(typeof(data))) {
-      this.result.push(`${this.count},${data}${this.newline}`);
+      line = `${this.count},${JSON.stringify(data)}`;
+      this.result.push(`${line}${this.newline}`);
       this.count++;
-      return `${this.count}${data}${this.newline}`
+      return line;
     }
     for (const key of Object.keys(data)) {
       if (this.fields.includes(key)) _result.push(data[key]);
     }
-    const result = `${this.count},${_result.join(',')}${this.newline}`;
-    this.result.push(result);
+    _result = JSON.stringify(_result);
+    _result = _result.substring(1, _result.length - 1);
+    line = `${this.count},${_result}`;
+    this.result.push(`${line}${this.newline}`);
     this.count++
-    return result;
+    return line;
   }
 
   parseHeader () {
-    const fields = this.fields;
+    let fields = this.fields;
     if (!fields) return null;
     if (fields[0] !== '#seq') fields.unshift('#seq');
-    if (!/^#seq/.test(this.result)) this.result.unshift(`${fields.join(',')}${this.newline}`)
-    return `${fields.join(',')}${this.newline}`
+    fields = JSON.stringify(fields);
+    fields = fields.substring(1, fields.length - 1);
+    if (!/^#seq/.test(this.result)) this.result.unshift(`${fields}${this.newline}`);
+    return fields;
   }
 
   parse () {
