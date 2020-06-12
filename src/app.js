@@ -3,14 +3,13 @@ const Koa = require('koa');
 const cors = require('@koa/cors');
 
 // load config
-const loadconfig = require(`${__dirname}/utils/loadconfig.js`);
+const { localconfig } = require(`${__dirname}/utils`);
 
-// routes
-const router = require(`${__dirname}/router/index.js`);
+// load routes
+const router = require(`${__dirname}/router`);
 
 // init
 const app = new Koa();
-const config = loadconfig.load(`${__dirname}/../.local_config.json`).config;
 
 // run app
 app
@@ -25,6 +24,6 @@ app
   }))
   .use(router.routes())
   .use(router.allowedMethods())
-  .listen(config.port, config.address, () => {
-    console.log(`Starting server at ${config.address}:${config.port}...`);
+  .listen(localconfig.port, localconfig.address, () => {
+    console.log(`Starting server at ${localconfig.address}:${localconfig.port}...`);
   });

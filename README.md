@@ -45,6 +45,7 @@ yarn updatecache
 * address：服务器地址
 * issuesroot：Issue的本地根路径，建议使用绝对路径
 * cacheroot： 前端文件缓存的路径，建议使用绝对路径
+* logroot: 日志文件保存的路径，可选配置，默认值为后端工程根目录/logs
 * db：数据库文件路径，建议使用绝对路径
 
 ## 项目协作
