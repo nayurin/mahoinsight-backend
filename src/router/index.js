@@ -6,7 +6,7 @@ const router = new Router();
 const newissue = require(`${__dirname}/apis/newissue.js`)
 
 // apply routes
-router.post('/api/newissue', newissue.respond);
+router.post('/newissue', newissue.respond);
 
 // export module
 module.exports = router;
