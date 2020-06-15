@@ -94,9 +94,34 @@ class Princess {
     }
   }
   
-  // _skillDataAnalyzer(actions){
-
-  // }
+  _getPrincessStoryBonus() {
+    this.storybonus = new Object();
+    const baseid = (this.id - this.id % 100) / 100;
+    const bonus = queryData.queryFromDatabase("select unlock_story_name, status_type_1,status_rate_1,status_type_2,status_rate_2,status_type_3,status_rate_3,status_type_4,status_rate_4,status_type_5,status_rate_5 from chara_story_status where chara_id_1=? or chara_id_2=? or chara_id_3=? or chara_id_4=? or chara_id_5=? or chara_id_6=? or chara_id_7=? or chara_id_8=? or chara_id_9=? or chara_id_10=?", [baseid, baseid, baseid, baseid, baseid, baseid, baseid, baseid, baseid, baseid]);
+    const statusmap = {
+      1: "生命值",
+      2: "物理攻击力",
+      3: "物理防御力",
+      4: "魔法攻击力",
+      5: "魔法防御力",
+      6: "物理暴击",
+      7: "魔法暴击",
+      8: "回避",
+      9: "生命值吸收",
+      10: "生命值自动回复",
+      11: "技能值自动回复",
+      14: "技能值上升",
+      15: "回复量上升"
+    }
+    bonus.map(x => {
+      this.storybonus[x.unlock_story_name] = new Object();
+      for (let i = 0; i <= 5; i++) {
+        if (x[`status_type_${i}`]) {
+          this.storybonus[x.unlock_story_name][statusmap[x[`status_type_${i}`]]] = x[`status_rate_${i}`]
+        }
+      }
+    })
+  }
 
   static _add2Crafts(obj, equip_id, amount = 1) {
     if (obj.hasOwnProperty(equip_id)) {
@@ -122,6 +147,7 @@ class Princess {
     this._getPrincessSkillData();
     this._getPrincessGrowth();
     this._getPrincessUniqueEquipment();
+    this._getPrincessStoryBonus();
   }
 
   async promote(to, from = 1) {
