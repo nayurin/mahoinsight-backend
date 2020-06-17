@@ -1,8 +1,8 @@
-const commons = require(`${__dirname}/../commons.js`);
-const { logger4router } = require(`${__dirname}/../../log4js`);
+const commons = require(`${__dirname}/../../commons.js`);
+const { logger4router } = require(`${__dirname}/../../../log4js`);
 const { calculator } = require(`${__dirname}/../../../utils/arena/GemsCalculator.js`);
 
-async function respond () {
+async function respond (ctx, next) {
   try {
     const data = await commons.parse(ctx);
     const result = calculator(data);
@@ -31,4 +31,6 @@ async function respond () {
   }
 }
 
-module.exports = respond;
+module.exports = {
+  respond
+};

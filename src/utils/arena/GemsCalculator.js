@@ -1,7 +1,9 @@
 const queryData = require(__dirname + '/../sqliteutil.js');
 
 function calculator ({ from, to, isGrandArena = false }) {
-  if (from < to) return;
+  from = Number(from);
+  to = Number(to);
+  if (!from || !to || from < to) return;
   const arena = isGrandArena ? 'grand_arena' : 'arena';
   const maxData = queryData.queryFromDatabase(`select rank_from,rank_to,reward_num_1 from ${arena}_max_rank_reward`);
   const seasonData = queryData.queryFromDatabase(`select rank_from,rank_to,reward_num_1 from ${arena}_max_season_rank_reward`);
@@ -36,4 +38,6 @@ function calculator ({ from, to, isGrandArena = false }) {
   return [maxLeft, seasonLeft];
 }
 
-module.exports = calculator;
+module.exports = {
+  calculator
+};
