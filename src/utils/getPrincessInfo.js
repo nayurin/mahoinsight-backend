@@ -86,7 +86,7 @@ class Princess {
     let id_short = this.id.toString().split('').splice(2, 2).join('');
     let equip_id = `130${id_short}1`;
     let uniq_equip_data = queryData.queryFromDatabase("select * from unique_equipment_data where equipment_id=?", equip_id);
-    let uniq_equip_enh_rate = queryData.queryFromDatabase("select * from unique_equipment_data where equipment_id=?", equip_id);
+    let uniq_equip_enh_rate = queryData.queryFromDatabase("select * from unique_equipment_enhance_rate where equipment_id=?", equip_id);
     if (uniq_equip_data.length && uniq_equip_enh_rate.length) {
       this.unique_equipment = new Object();
       this.unique_equipment['data'] = uniq_equip_data[0];
