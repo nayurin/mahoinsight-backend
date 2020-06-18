@@ -7,7 +7,7 @@
 
 ## 项目构建与使用
 ### 项目环境准备
-1.安装[Node.js](https://nodejs.org/zh-cn/) (版本要求7.6或更高)
+1.安装[Node.js](https://nodejs.org/zh-cn/) (版本要求14或更高)
 
 2.使用以下命令安装nrm (可选)
 ```
@@ -23,6 +23,7 @@ nrm use cnpm
 ```
 npm install -g yarn
 ```
+5.确保操作系统中已经安装过C++运行时或开发者工具。
 
 ### 项目依赖包的安装
 ```
