@@ -9,32 +9,41 @@ function cache2File(){
   if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath);
   logger4util.debug('<cache> cache root:', dirPath);
 
-  const chara = JSON.stringify(Getter._getCharaAll()), charaFile = `${dirPath}/cache_princess.json`;
-  fs.writeFile(charaFile, chara, (e) => {
-    if (e) {
-      logger4util.error('<cache> write error on princess cache:', e);
-    } else {
-      logger4util.debug('<cache> finished writing princess cache:', charaFile);
+  const mapping = {
+    chara: {
+      get: Getter._getCharaAll,
+      file: `${dirPath}/cache_princess.json`
+    },
+    item: {
+      get: Getter._getItemAll,
+      file: `${dirPath}/cache_item.json`
+    },
+    quest: {
+      get: Getter._getQuestAll,
+      file: `${dirPath}/cache_quest.json`
+    },
+    clanbattle: {
+      get: Getter._getClanBattleAll,
+      file: `${dirPath}/cache_clanbattle.json`
     }
-  });
+  }
 
-  const item = JSON.stringify(Getter._getItemAll()), itemFile = `${dirPath}/cache_item.json`;
-  fs.writeFile(itemFile, item, (e) => {
-    if (e) {
-      logger4util.error('<cache> write error on item cache:', e);
-    } else {
-      logger4util.debug('<cache> finished writing item cache:', itemFile);
-    }
-  });
-  
-  const quest = JSON.stringify(Getter._getQuestAll()), questFile = `${dirPath}/cache_quest.json`;
-  fs.writeFile(questFile, quest, (e) => {
-    if (e) {
-      logger4util.error('<cache> write error on quest cache:', e);
-    } else {
-      logger4util.debug('<cache> finished writing quest cache:', questFile);
-    }
-  });
+  const write = (type) => {
+    const filename = mapping[type].file;
+    const content = JSON.stringify(mapping[type].get());
+    fs.writeFile(filename, content, e => {
+      if (e) {
+        logger4util.error(`<cache> write error on ${type} cache: ${e}`);
+      } else {
+        logger4util.debug(`<cache> finished writing ${type} cache: ${filename}`);
+      }
+    })
+  }
+
+  write('chara');
+  write('item');
+  write('quest');
+  write('clanbattle');
 }
 
 module.exports = cache2File;

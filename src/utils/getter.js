@@ -1,6 +1,7 @@
 const Item = require(__dirname + '/global/getItemInfo.js');
 const Princess = require(__dirname + '/global/getPrincessInfo.js');
 const Quest = require(__dirname + '/global/getQuestInfo.js');
+const ClanBattle = require(__dirname + '/global/getClanBattleInfo.js');
 
 class Getter {
   constructor(type, id = 0) {
@@ -21,7 +22,7 @@ class Getter {
   static _getCharaAll() {
     let obj = new Object();
     Princess.list().forEach(chara => {
-      obj[this._getChara(chara).status.unit_name] = this._getChara(chara);
+      obj[Getter._getChara(chara).status.unit_name] = Getter._getChara(chara);
     });
     return obj;
   }
@@ -39,7 +40,7 @@ class Getter {
   static _getItemAll() {
     let obj = new Object();
     Item.list().forEach(item => {
-      obj[this._getItem(item).detail.equipment_name] = this._getItem(item);
+      obj[Getter._getItem(item).detail.equipment_name] = Getter._getItem(item);
     });
     return obj;
   }
@@ -81,6 +82,24 @@ class Getter {
       q.getQuestEnemyDetail();
       obj.other[quest] = q;
     });
+    return obj;
+  }
+
+  static _getClanBattle (id) {
+    if (id === 0) {
+      return ClanBattle.list();
+    } else {
+      const r = new ClanBattle(id);
+      r.prepare();
+      return r;
+    }
+  }
+
+  static _getClanBattleAll () {
+    const obj = new Object();
+    ClanBattle.list().forEach(eventid => {
+      obj[eventid] = Getter._getClanBattle(eventid);
+    })
     return obj;
   }
 
