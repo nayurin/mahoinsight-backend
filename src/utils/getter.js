@@ -1,6 +1,6 @@
-const Item = require(__dirname + '/getItemInfo.js');
-const Princess = require(__dirname + '/getPrincessInfo.js');
-const Quest = require(__dirname + '/getQuestInfo.js');
+const Item = require(__dirname + '/global/getItemInfo.js');
+const Princess = require(__dirname + '/global/getPrincessInfo.js');
+const Quest = require(__dirname + '/global/getQuestInfo.js');
 
 class Getter {
   constructor(type, id = 0) {

@@ -1,4 +1,4 @@
-const queryData = require(__dirname + '/sqliteutil.js');
+const queryData = require(__dirname + '/../sqliteutil.js');
 const Item = require(__dirname + '/getItemInfo.js');
 
 class Princess {
