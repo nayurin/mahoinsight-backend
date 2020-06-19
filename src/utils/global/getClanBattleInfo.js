@@ -15,7 +15,7 @@ class ClanBattle {
   _getClanBattleBossDetail () {
     for (const phase of this.mapdata) {
       phase.clan_battle_boss_group = queryData.queryFromDatabase(
-        "select clan_battle_boss_group_id, order_num, wave_group_id, score_coefficient from clan_battle_boss_group where clan_battle_boss_group_id=?",
+        "select order_num, wave_group_id, score_coefficient from clan_battle_boss_group where clan_battle_boss_group_id=?",
         phase.clan_battle_boss_group_id
       );
       for (const item of phase.clan_battle_boss_group) {
@@ -27,7 +27,20 @@ class ClanBattle {
           if (row) item.enemy.push(row)
         }
       }
+      delete phase.clan_battle_boss_group_id
     }
+  }
+
+  _getClanBattlePeriodRewards () {
+    this.period = new Object();
+    this.period.schedule = queryData.queryFromDatabase(
+      "select period_detail, start_time, end_time from clan_battle_period where clan_battle_id=?",
+      this.id
+    )[0];
+    this.period.reward = queryData.queryFromDatabase(
+      "select rank_from, rank_to, reward_id_1, reward_num_1, reward_id_2, reward_num_2, reward_id_3, reward_num_3 from clan_battle_period_rank_reward where clan_battle_id=?",
+      this.id
+    );
   }
 
   static list () {
@@ -38,6 +51,7 @@ class ClanBattle {
   prepare () {
     this._getClanBattleMapInfo();
     this._getClanBattleBossDetail();
+    this._getClanBattlePeriodRewards();
   }
 }
 
