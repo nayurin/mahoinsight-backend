@@ -19,7 +19,7 @@ class Item {
     } else if (this.type === "Equipment") {
       ret = queryData.queryFromDatabase("select * from equipment_data where equipment_id=?", this.id)[0];
     } else {
-      throw new Error('item type unknown');
+      throw new Error('item type unknown, id:', this.id);
     }
     return ret ? ret : false;
   }
@@ -109,6 +109,9 @@ class Item {
     let list = new Array();
     for (let item of queryData.queryFromDatabase("select equipment_id from equipment_data").values()){
       list.push(item.equipment_id);
+    }
+    for (let item of queryData.queryFromDatabase("select item_id from item_data").values()){
+      list.push(item.item_id);
     }
     return list;
   }

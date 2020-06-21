@@ -40,7 +40,7 @@ class Getter {
   static _getItemAll() {
     let obj = new Object();
     Item.list().forEach(item => {
-      obj[Getter._getItem(item).detail.equipment_name] = Getter._getItem(item);
+      obj[item] = Getter._getItem(item);
     });
     return obj;
   }
