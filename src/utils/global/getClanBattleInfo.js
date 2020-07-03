@@ -13,6 +13,38 @@ class ClanBattle {
   }
 
   _getClanBattleBossDetail () {
+    const skillset = [
+      'main_skill_1',
+      'main_skill_2',
+      'main_skill_3',
+      'main_skill_4',
+      'main_skill_5',
+      'main_skill_6',
+      'main_skill_7',
+      'main_skill_8',
+      'main_skill_9',
+      'main_skill_10',
+      'main_skill_evolution_1',
+      'main_skill_evolution_2',
+      'ex_skill_1',
+      'ex_skill_2',
+      'ex_skill_3',
+      'ex_skill_4',
+      'ex_skill_5',
+      'ex_skill_evolution_1',
+      'ex_skill_evolution_2',
+      'ex_skill_evolution_3',
+      'ex_skill_evolution_4',
+      'ex_skill_evolution_5',
+      'sp_skill_1',
+      'sp_skill_2',
+      'sp_skill_3',
+      'sp_skill_4',
+      'sp_skill_5',
+      'union_burst',
+      'union_burst_evolution'
+    ]
+
     for (const phase of this.mapdata) {
       phase.clan_battle_boss_group = queryData.queryFromDatabase(
         "select order_num, wave_group_id, score_coefficient from clan_battle_boss_group where clan_battle_boss_group_id=?",
@@ -22,9 +54,36 @@ class ClanBattle {
         item.enemy = new Array();
         const enemies = queryData.queryFromDatabase("select enemy_id_1,enemy_id_2,enemy_id_3,enemy_id_4,enemy_id_5 from wave_group_data where wave_group_id=?", item.wave_group_id)[0];
         for (const enemyid of Object.keys(enemies)) {
-          const enemy_unitid = enemies[enemyid] ? queryData.queryFromDatabase("select unit_id from enemy_parameter where enemy_id=?", enemies[enemyid])[0].unit_id : null;
-          const row = enemies[enemyid] && enemy_unitid ? queryData.queryFromDatabase("select * from enemy_parameter inner join unit_enemy_data where enemy_parameter.enemy_id=? and enemy_parameter.unit_id=? and unit_enemy_data.unit_id=?", [enemies[enemyid], enemy_unitid, enemy_unitid])[0] : null;
-          if (row) item.enemy.push(row)
+          if (!enemies[enemyid]) continue
+          const enemy = queryData.queryFromDatabase("select unit_id, resist_status_id from enemy_parameter where enemy_id=?", enemies[enemyid])[0];
+          enemy.enemy_id = enemies[enemyid];
+          enemy.detail = {};
+          if (enemy.enemy_id && enemy.unit_id) {
+            enemy.detail.attackpattern = queryData.queryFromDatabase("select * from unit_attack_pattern where unit_id=?", enemy.unit_id);
+            enemy.detail.parameter = queryData.queryFromDatabase("\
+              SELECT unit_skill_data.*, enemy_parameter.*, unit_enemy_data.* \
+              FROM enemy_parameter\
+              INNER JOIN unit_skill_data ON enemy_parameter.unit_id=unit_skill_data.unit_id\
+              INNER JOIN unit_enemy_data ON enemy_parameter.unit_id=unit_enemy_data.unit_id\
+              WHERE enemy_parameter.enemy_id = ? ",
+              enemy.enemy_id
+            )[0];
+            enemy.detail.resistance = queryData.queryFromDatabase("select * from resist_data where resist_status_id=?", enemy.resist_status_id)[0];
+          }
+          for (const skill of skillset) {
+            if (enemy.detail.parameter[skill] !== 0) {
+              enemy.detail.parameter[skill] = queryData.queryFromDatabase("select * from skill_data where skill_id=?", enemy.detail.parameter[skill])[0];
+              for (let i = 1; i <= 7; i++) {
+                if (enemy.detail.parameter[skill][`action_${i}`]) {
+                  enemy.detail.parameter[skill][`action_${i}`] = queryData.queryFromDatabase("select * from skill_action where action_id=?", enemy.detail.parameter[skill][`action_${i}`])[0];
+                }
+                if (enemy.detail.parameter[skill][`depend_action_${i}`]) {
+                  enemy.detail.parameter[skill][`depend_action_${i}`] = queryData.queryFromDatabase("select * from skill_action where action_id=?", enemy.detail.parameter[skill][`depend_action_${i}`])[0];
+                }
+              }
+            }
+          }
+          item.enemy.push(enemy.detail);
         }
       }
       delete phase.clan_battle_boss_group_id
