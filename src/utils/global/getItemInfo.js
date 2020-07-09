@@ -1,8 +1,7 @@
-const queryData = require(__dirname + '/../sqliteutil.js');
-
 class Item {
-  constructor(id = 0) {
-    this.id = parseInt(id);
+  constructor(id, db) {
+    this.id = parseInt(id) || 0;
+    this.db = db;
     if (this.id.toString().length === 5) {
       this.type = "Item";
     } else if (this.id.toString().length === 6) {
@@ -15,9 +14,9 @@ class Item {
   _getItemInfo() {
     let ret = '';
     if (this.type === "Item") {
-      ret = queryData.queryFromDatabase("select * from item_data where item_id=?", this.id)[0];
+      ret = this.db.query("select * from item_data where item_id=?", this.id)[0];
     } else if (this.type === "Equipment") {
-      ret = queryData.queryFromDatabase("select * from equipment_data where equipment_id=?", this.id)[0];
+      ret = this.db.query("select * from equipment_data where equipment_id=?", this.id)[0];
     } else {
       throw new Error('item type unknown, id:', this.id);
     }
@@ -26,7 +25,7 @@ class Item {
 
   _rewardId2DropRewardId() {
     let result = new Array();
-    let row = queryData.queryFromDatabase("select * from enemy_reward_data where reward_id_1=? or reward_id_2=? or reward_id_3=? or reward_id_4=? or reward_id_5=?", [this.id, this.id, this.id, this.id, this.id]);
+    let row = this.db.query("select * from enemy_reward_data where reward_id_1=? or reward_id_2=? or reward_id_3=? or reward_id_4=? or reward_id_5=?", [this.id, this.id, this.id, this.id, this.id]);
     if (row.length > 0) {
       row.forEach((item) => {
         let drop_info = new Object();
@@ -49,7 +48,7 @@ class Item {
 
   _dropRewardId2WaveGroupId(drop_reward_id) {
     let result = new Array();
-    let row = queryData.queryFromDatabase("select * from wave_group_data where drop_reward_id_1=? or drop_reward_id_2=? or drop_reward_id_3=? or drop_reward_id_4=? or drop_reward_id_5=?", [drop_reward_id, drop_reward_id, drop_reward_id, drop_reward_id, drop_reward_id]);
+    let row = this.db.query("select * from wave_group_data where drop_reward_id_1=? or drop_reward_id_2=? or drop_reward_id_3=? or drop_reward_id_4=? or drop_reward_id_5=?", [drop_reward_id, drop_reward_id, drop_reward_id, drop_reward_id, drop_reward_id]);
     if (row.length > 0) {
       row.forEach((item) => {
         let wave_info = new Object();
@@ -67,7 +66,7 @@ class Item {
 
   _waveGroupId2QuestId(wave_group_id) {
     let result = new Array();
-    let row = queryData.queryFromDatabase("select quest_id,area_id,quest_name,stamina from quest_data where wave_group_id_1=? or wave_group_id_2=? or wave_group_id_3=?", [wave_group_id, wave_group_id, wave_group_id]);
+    let row = this.db.query("select quest_id,area_id,quest_name,stamina from quest_data where wave_group_id_1=? or wave_group_id_2=? or wave_group_id_3=?", [wave_group_id, wave_group_id, wave_group_id]);
     if (row.length > 0) {
       row.forEach((item) => {
         result.push(item);
@@ -96,7 +95,7 @@ class Item {
       });
     } else if (this.detail.craft_flg == 1) {
       this.craft_by = new Array();
-      let craftship = queryData.queryFromDatabase("select * from equipment_craft where equipment_id=?", this.id)[0];
+      let craftship = this.db.query("select * from equipment_craft where equipment_id=?", this.id)[0];
       for (let i = 1; i <= 10; i++) {
         if (craftship["condition_equipment_id_" + i] != 0 && craftship["consume_num_" + i] != 0) {
           this.craft_by.push([craftship["condition_equipment_id_" + i], craftship["consume_num_" + i]])
@@ -105,24 +104,24 @@ class Item {
     }
   }
 
-  static list() {
+  list() {
     let list = new Array();
-    for (let item of queryData.queryFromDatabase("select equipment_id from equipment_data").values()){
+    for (let item of this.db.query("select equipment_id from equipment_data").values()){
       list.push(item.equipment_id);
     }
-    for (let item of queryData.queryFromDatabase("select item_id from item_data").values()){
+    for (let item of this.db.query("select item_id from item_data").values()){
       list.push(item.item_id);
     }
     return list;
   }
 
   static _craft(equip_id, amount = 1) {
-    let row = queryData.queryFromDatabase("select craft_flg from equipment_data where equipment_id=?", equip_id)[0];
+    let row = this.db.query("select craft_flg from equipment_data where equipment_id=?", equip_id)[0];
     if (row.craft_flg == 0) {
       return -1;
     }
     let craft_by = new Array();
-    let craftship = queryData.queryFromDatabase("select * from equipment_craft where equipment_id=?", equip_id)[0];
+    let craftship = this.db.query("select * from equipment_craft where equipment_id=?", equip_id)[0];
     for (let i = 1; i <= 10; i++) {
       if (craftship["condition_equipment_id_" + i] != 0 && craftship["consume_num_" + i] != 0) {
         craft_by.push([craftship["condition_equipment_id_" + i], craftship["consume_num_" + i] * amount])

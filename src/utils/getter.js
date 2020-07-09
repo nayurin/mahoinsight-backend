@@ -2,82 +2,87 @@ const Item = require(__dirname + '/global/getItemInfo.js');
 const Princess = require(__dirname + '/global/getPrincessInfo.js');
 const Quest = require(__dirname + '/global/getQuestInfo.js');
 const ClanBattle = require(__dirname + '/global/getClanBattleInfo.js');
+const sqlite = require(__dirname + '/sqliteutil.js');
 
 class Getter {
-  constructor(type, id = 0) {
+  constructor({ type, id = 0, db }) {
     this.type = type;
     this.id = id;
+    this.db = db || new sqlite();
   }
 
-  static _getChara(id) {
+  _getChara(id) {
+    let p = new Princess(id, this.db);
     if (id === 0) {
-      return Princess.list();
+      return p.list();
     } else {
-      let r = new Princess(id);
-      r.connect();
-      return r;
+      p.connect();
+      return p;
     }
   }
 
-  static _getCharaAll() {
+  _getCharaAll() {
     let obj = new Object();
-    Princess.list().forEach(chara => {
-      obj[Getter._getChara(chara).status.unit_name] = Getter._getChara(chara);
+    const p = new Princess(0, this.db);
+    p.list().forEach(chara => {
+      obj[this._getChara(chara).status.unit_name] = this._getChara(chara);
     });
     return obj;
   }
 
-  static _getItem(id) {
+  _getItem(id) {
+    let i = new Item(id, this.db);
     if (id === 0) {
-      return Item.list();
+      return i.list();
     } else {
-      let r = new Item(id);
-      r.analyze();
-      return r;
+      i.analyze();
+      return i;
     }
   }
 
-  static _getItemAll() {
+  _getItemAll() {
     let obj = new Object();
-    Item.list().forEach(item => {
-      obj[item] = Getter._getItem(item);
+    const i = new Item(0, this.db);
+    i.list().forEach(item => {
+      obj[item] = this._getItem(item);
     });
     return obj;
   }
 
-  static _getQuest(id) {
+  _getQuest(id) {
+    const q = new Quest(id, this.db);
     if (id === 0) {
-      return Quest.getQuestList();
+      return q.getQuestList();
     } else {
-      const q = new Quest(id);
       q.getQuestLootDetail();
       q.getQuestEnemyDetail();
       return q;
     }
   }
 
-  static _getQuestAll() {
-    const quest = Quest.getQuestList(), obj = {
+  _getQuestAll() {
+    let q = new Quest(0, this.db);
+    const quest = q.getQuestList(), obj = {
       normal: new Object(),
       hard: new Object(),
       other: new Object(),
-      area: Quest.getQuestArea()
+      area: q.getQuestArea()
     };
-    let q = new Object();
+    // let r = new Object();
     quest.normal.map(quest => {
-      q = new Quest(quest);
+      q = new Quest(quest, this.db);
       q.getQuestLootDetail();
       q.getQuestEnemyDetail();
       obj.normal[quest] = q;
     });
     quest.hard.map(quest => {
-      q = new Quest(quest);
+      q = new Quest(quest, this.db);
       q.getQuestLootDetail();
       q.getQuestEnemyDetail();
       obj.hard[quest] = q;
     });
     quest.other.map(quest => {
-      q = new Quest(quest);
+      q = new Quest(quest, this.db);
       q.getQuestLootDetail();
       q.getQuestEnemyDetail();
       obj.other[quest] = q;
@@ -85,20 +90,21 @@ class Getter {
     return obj;
   }
 
-  static _getClanBattle (id) {
+  _getClanBattle (id) {
+    const c = new ClanBattle(id, this.db);
     if (id === 0) {
       return ClanBattle.list();
     } else {
-      const r = new ClanBattle(id);
-      r.prepare();
-      return r;
+      c.prepare();
+      return c;
     }
   }
 
-  static _getClanBattleAll () {
+  _getClanBattleAll () {
     const obj = new Object();
-    ClanBattle.list().forEach(eventid => {
-      obj[eventid] = Getter._getClanBattle(eventid);
+    const c = new ClanBattle(0, this.db);
+    c.list().forEach(eventid => {
+      obj[eventid] = this._getClanBattle(eventid);
     })
     return obj;
   }
@@ -106,11 +112,11 @@ class Getter {
   _get() {
     switch (this.type) {
       case 'chara':
-        return Getter._getChara(this.id);
+        return this._getChara(this.id);
       case 'item':
-        return Getter._getItem(this.id);
+        return this._getItem(this.id);
       case 'quest':
-        return Getter._getQuest(this.id);
+        return this._getQuest(this.id);
       default:
         throw new Error('incorrect type');
     }
