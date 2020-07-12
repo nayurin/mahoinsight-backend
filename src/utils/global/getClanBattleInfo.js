@@ -114,4 +114,3 @@ class ClanBattle {
 }
 
 module.exports = ClanBattle;
-

@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+      "module": "commonJS",
+      "target": "es6",
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strictPropertyInitialization": true,
+      "removeComments": true,
+      "sourceMap": true,
+      "suppressImplicitAnyIndexErrors": true,
+      "outDir": "dist",
+      "baseUrl": ".",
+      "paths": {
+        "*": [
+          "src/utils/*"
+        ]
+      },
+      "lib": [
+        "es6",
+        "es7"
+      ]
+  },
+  "include": [
+      "src/utils/*"
+  ],
+  "exclude": [
+      "node_modules"
+  ]
+}

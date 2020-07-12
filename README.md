@@ -4,6 +4,7 @@
 ## 技术栈
 - [Node.js](https://nodejs.org/zh-cn/)
 - [Koa.js](https://github.com/koajs/koa/)
+- [TypeScript](https://www.typescriptlang.org/)
 
 ## 项目构建与使用
 ### 项目环境准备
@@ -25,6 +26,12 @@ npm install -g yarn
 ```
 5.确保操作系统中已经安装过C++运行时或开发者工具。
 
+6.全局安装[TypeScript](https://www.typescriptlang.org/)和[ts-node](https://github.com/TypeStrong/ts-node) (可选)
+```
+yarn global add typescript
+yarn global add ts-node
+```
+
 ### 项目依赖包的安装
 ```
 yarn install
@@ -38,6 +45,11 @@ yarn start
 ### 更新前端文件缓存
 ```
 yarn updatecache
+```
+
+### 更新前端文件缓存(适配旧版前端工程)
+```
+yarn updatecache_v0
 ```
 
 ### 项目本地环境参数配置

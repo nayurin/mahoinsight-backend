@@ -115,44 +115,44 @@ class Item {
     return list;
   }
 
-  static _craft(equip_id, amount = 1) {
-    let row = this.db.query("select craft_flg from equipment_data where equipment_id=?", equip_id)[0];
-    if (row.craft_flg == 0) {
-      return -1;
-    }
-    let craft_by = new Array();
-    let craftship = this.db.query("select * from equipment_craft where equipment_id=?", equip_id)[0];
-    for (let i = 1; i <= 10; i++) {
-      if (craftship["condition_equipment_id_" + i] != 0 && craftship["consume_num_" + i] != 0) {
-        craft_by.push([craftship["condition_equipment_id_" + i], craftship["consume_num_" + i] * amount])
-      }
-    }
-    for (let i = 0; i < craft_by.length; i++) {
-      if (Item._craft(craft_by[i][0]) == -1) {
-        continue;
-      } else {
-        let num = craft_by[i][1];
-        craft_by[i] = Item._craft(craft_by[i][0], num);
-      }
-    }
-    return craft_by;
-  }
+  // _craft(equip_id, amount = 1) {
+  //   let row = this.db.query("select craft_flg from equipment_data where equipment_id=?", equip_id)[0];
+  //   if (row.craft_flg == 0) {
+  //     return -1;
+  //   }
+  //   let craft_by = new Array();
+  //   let craftship = this.db.query("select * from equipment_craft where equipment_id=?", equip_id)[0];
+  //   for (let i = 1; i <= 10; i++) {
+  //     if (craftship["condition_equipment_id_" + i] != 0 && craftship["consume_num_" + i] != 0) {
+  //       craft_by.push([craftship["condition_equipment_id_" + i], craftship["consume_num_" + i] * amount])
+  //     }
+  //   }
+  //   for (let i = 0; i < craft_by.length; i++) {
+  //     if (this._craft(craft_by[i][0]) == -1) {
+  //       continue;
+  //     } else {
+  //       let num = craft_by[i][1];
+  //       craft_by[i] = this._craft(craft_by[i][0], num);
+  //     }
+  //   }
+  //   return craft_by;
+  // }
 
-  craft() {
-    return new Promise(resolve => {
-      let craft_by = Item._craft(this.id);
-      if (craft_by != -1) {
-        craft_by = craft_by.flat(Infinity);
-        let ret = new Array();
-        for (let i = 0; i < craft_by.length; i = i + 2) {
-          ret.push([craft_by[i], craft_by[i + 1]]);
-        }
-        return resolve(ret);
-      } else {
-        return resolve(-1);
-      }
-    });
-  }
+  // craft() {
+  //   return new Promise(resolve => {
+  //     let craft_by = this._craft(this.id);
+  //     if (craft_by != -1) {
+  //       craft_by = craft_by.flat(Infinity);
+  //       let ret = new Array();
+  //       for (let i = 0; i < craft_by.length; i = i + 2) {
+  //         ret.push([craft_by[i], craft_by[i + 1]]);
+  //       }
+  //       return resolve(ret);
+  //     } else {
+  //       return resolve(-1);
+  //     }
+  //   });
+  // }
 }
 
 module.exports = Item;

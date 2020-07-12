@@ -14,6 +14,6 @@ function load (path) {
 }
 
 const config = load(`${__dirname}/../../.local_config.json`);
-// logger4util.debug('<loadconfig> loaded:', data);
+// logger4util.debug('<loadconfig> loaded:', config);
 
 module.exports = config;

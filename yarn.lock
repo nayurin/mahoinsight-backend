@@ -20,6 +20,23 @@
     methods "^1.1.2"
     path-to-regexp "^6.1.0"
 
+"@types/better-sqlite3@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.npm.taobao.org/@types/better-sqlite3/download/@types/better-sqlite3-5.4.0.tgz#ab7336ccc2e31bd88247016c675cfcb01df99787"
+  integrity sha1-q3M2zMLjG9iCRwFsZ1z8sB35l4c=
+  dependencies:
+    "@types/integer" "*"
+
+"@types/integer@*":
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/@types/integer/download/@types/integer-1.0.1.tgz#025d87e30d97f539fcc6087372af7d3672ffbbe6"
+  integrity sha1-Al2H4w2X9Tn8xghzcq99NnL/u+Y=
+
+"@types/node@^14.0.20":
+  version "14.0.20"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-14.0.20.tgz?cache=0&sync_timestamp=1594229645186&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-14.0.20.tgz#0da05cddbc761e1fa98af88a17244c8c1ff37231"
+  integrity sha1-DaBc3bx2Hh+piviKFyRMjB/zcjE=
+
 accepts@^1.3.5:
   version "1.3.7"
   resolved "https://registry.npm.taobao.org/accepts/download/accepts-1.3.7.tgz#531bc726517a3b2b41f850021c6cc15eaab507cd"
