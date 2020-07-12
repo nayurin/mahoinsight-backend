@@ -34,7 +34,7 @@ class loadDatabase {
     for (const _item of queryresult) {
       const item = _item as Utils.ClanBattleBossGroup
       const itemdata = {
-        [item.clan_battle_boss_group_id]: item
+        [`${item.clan_battle_boss_group_id}#${item.order_num}`]: item
       }
       data = {...data, ...itemdata}
     }
@@ -44,14 +44,14 @@ class loadDatabase {
   fromClanBattlePeriod (): Utils.TableData<Utils.ClanBattlePeriod> {
     let data = {}
     const querytext = `
-      SELECT clan_battle_id, period_detail, start_time, end_time
+      SELECT clan_battle_id, period, period_detail, start_time, end_time
       FROM clan_battle_period
     `
     const queryresult = this.db.query(querytext) ?? []
     for (const _item of queryresult) {
       const item = _item as Utils.ClanBattlePeriod
       const itemdata = {
-        [item.clan_battle_id]: item
+        [`${item.clan_battle_id}#${item.period}`]: item
       }
       data = {...data, ...itemdata}
     }
@@ -152,7 +152,7 @@ class loadDatabase {
         reward_type_2, reward_id_2, reward_num_2, odds_2,
         reward_type_3, reward_id_3, reward_num_3, odds_3,
         reward_type_4, reward_id_4, reward_num_4, odds_4,
-        reward_type_5, reward_id_5, reward_num_5, odds_5,
+        reward_type_5, reward_id_5, reward_num_5, odds_5
       FROM enemy_reward_data
     `
     const queryresult = this.db.query(querytext) ?? []
@@ -280,8 +280,7 @@ class loadDatabase {
   fromUnitBackground (): Utils.TableData<Utils.UnitBackground> {
     let data = {}
     const querytext = `
-      SELECT
-        unit_id, rarity, hp
+      SELECT unit_id, unit_name
       FROM unit_background
     `
     const queryresult = this.db.query(querytext) ?? []
@@ -299,7 +298,7 @@ class loadDatabase {
     let data = {}
     const querytext = `
       SELECT
-        unit_id, unit_name, hp, atk,
+        unit_id, rarity, hp, atk,
         magic_str, def, magic_def, physical_critical,
         magic_critical, wave_hp_recovery, wave_energy_recovery,
         dodge, physical_penetrate, magic_penetrate,
@@ -316,7 +315,7 @@ class loadDatabase {
     for (const _item of queryresult) {
       const item = _item as Utils.UnitRarity
       const itemdata = {
-        [item.unit_id]: item
+        [`${item.unit_id}#${item.rarity}`]: item
       }
       data = {...data, ...itemdata}
     }
@@ -336,7 +335,7 @@ class loadDatabase {
     for (const _item of queryresult) {
       const item = _item as Utils.UnitPromotion
       const itemdata = {
-        [item.unit_id]: item
+        [`${item.unit_id}#${item.promotion_level}`]: item
       }
       data = {...data, ...itemdata}
     }
@@ -359,7 +358,7 @@ class loadDatabase {
     for (const _item of queryresult) {
       const item = _item as Utils.UnitPromotionStatus
       const itemdata = {
-        [item.unit_id]: item
+        [`${item.unit_id}#${item.promotion_level}`]: item
       }
       data = {...data, ...itemdata}
     }
@@ -371,8 +370,8 @@ class loadDatabase {
     const querytext = `
       SELECT
         story_id, unlock_story_name,
-        story_type_1, story_type_2, story_type_3, story_type_4, story_type_5,
-        story_rate_1, story_rate_2, story_rate_3, story_rate_4, story_rate_5,
+        status_type_1, status_type_2, status_type_3, status_type_4, status_type_5,
+        status_rate_1, status_rate_2, status_rate_3, status_rate_4, status_rate_5,
         chara_id_1, chara_id_2, chara_id_3, chara_id_4, chara_id_5,
         chara_id_6, chara_id_7, chara_id_8, chara_id_9, chara_id_10
       FROM chara_story_status

@@ -34,6 +34,7 @@ export namespace Utils {
 
   export interface ClanBattlePeriod {
     readonly clan_battle_id: number
+    readonly period: number
     readonly period_detail: number
     readonly start_time: number
     readonly end_time: number
@@ -355,16 +356,16 @@ export namespace Utils {
   export interface CharaStoryStatus {
     readonly story_id: number
     readonly unlock_story_name: string
-    readonly story_type_1: number
-    readonly story_type_2: number
-    readonly story_type_3: number
-    readonly story_type_4: number
-    readonly story_type_5: number
-    readonly story_rate_1: number
-    readonly story_rate_2: number
-    readonly story_rate_3: number
-    readonly story_rate_4: number
-    readonly story_rate_5: number
+    readonly status_type_1: number
+    readonly status_type_2: number
+    readonly status_type_3: number
+    readonly status_type_4: number
+    readonly status_type_5: number
+    readonly status_rate_1: number
+    readonly status_rate_2: number
+    readonly status_rate_3: number
+    readonly status_rate_4: number
+    readonly status_rate_5: number
     readonly chara_id_1: number
     readonly chara_id_2: number
     readonly chara_id_3: number
