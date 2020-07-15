@@ -400,6 +400,7 @@ export namespace Utils {
     readonly depend_action_6: number
     readonly depend_action_7: number
     readonly description: string
+    readonly icon_type: number
   }
 
   export interface SkillAction {

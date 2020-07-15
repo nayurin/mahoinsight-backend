@@ -327,7 +327,7 @@ class loadDatabase {
     const querytext = `
       SELECT
         unit_id, promotion_level,
-        equip_slot_1, equip_slot_2, equip_slot_3
+        equip_slot_1, equip_slot_2, equip_slot_3,
         equip_slot_4, equip_slot_5, equip_slot_6
       FROM unit_promotion
     `
@@ -395,7 +395,7 @@ class loadDatabase {
         action_1, action_2, action_3, action_4, action_5,
         action_6, action_7, depend_action_1, depend_action_2,
         depend_action_3, depend_action_4, depend_action_5,
-        depend_action_6, depend_action_7, description
+        depend_action_6, depend_action_7, description, icon_type
       FROM skill_data
     `
     const queryresult = this.db.query(querytext) ?? []
