@@ -4,5 +4,6 @@
   "issuesroot": "/project/issues",
   "cacheroot": "/project/frontend/dist/cached",
   "logroot": "/project/logs",
-  "db": "/project/db/demo.dbfile"
+  "db": "/project/db/demo.dbfile",
+  "ngdb": "/project/db/demo.ngdbfile"
 }

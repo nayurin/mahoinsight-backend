@@ -1,10 +1,13 @@
 import SQLiteDatabase from './sqliteutil'
 import { Utils } from './utils'
+import * as path from 'path'
 
 class loadDatabase {
   db: SQLiteDatabase
-  constructor (db?: SQLiteDatabase) {
-    this.db = db || new SQLiteDatabase()
+  dbfile: string
+  constructor (dbfile: string) {
+    this.dbfile = dbfile
+    this.db = new SQLiteDatabase(dbfile)
   }
 
   fromClanBattleMapData (): Utils.TableData<Utils.ClanBattleMapData> {
@@ -582,6 +585,12 @@ class loadDatabase {
       data = {...data, ...itemdata}
     }
     return data
+  }
+
+  toString (): string {
+    const filename = path.basename(path.resolve(this.dbfile))
+    const extname = path.extname(path.resolve(this.dbfile))
+    return filename.substring(0, filename.length - extname.length)
   }
 }
 

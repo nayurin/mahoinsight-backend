@@ -6,6 +6,7 @@ export namespace Utils {
     readonly cacheroot: string
     readonly logroot: string
     readonly db: string
+    readonly ngdb: string
   }
 
   export interface TableData<T> {
