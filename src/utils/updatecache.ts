@@ -186,8 +186,8 @@ function cache2File () {
 
   write(master, 'all', false)
   write(master, 'all', true)
-  write(ngMaster, 'all', false)
-  write(ngMaster, 'all', true)
+  // write(ngMaster, 'all', false)
+  // write(ngMaster, 'all', true)
 }
 
 // export default cache2File

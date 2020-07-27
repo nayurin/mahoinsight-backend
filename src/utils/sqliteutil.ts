@@ -12,7 +12,7 @@ const dbfile = path.resolve(config.db)
 class DB {
   db: sqlite.Database
   constructor (file?: string) {
-    this.db = file ? new sqlite(file) : new sqlite(dbfile);
+    this.db = file ? new sqlite(file) : new sqlite(dbfile)
   }
 
   query (querytext: string, param?: string | string[]) {
@@ -29,7 +29,7 @@ class DB {
 
   static queryFromDatabase (querytext: string, param?: string | string[]) {
     try {
-      const db: sqlite.Database = new sqlite(dbfile);
+      const db: sqlite.Database = new sqlite(dbfile)
       const result: object[] = param ? db.prepare(querytext).all(param) : db.prepare(querytext).all()
       // logger4util.trace('<sqliteutil> query:', querytext);
       // logger4util.trace('<sqliteutil> param:', param);
