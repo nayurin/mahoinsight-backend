@@ -80,7 +80,7 @@ function calculator ({ id, rarity, rank, level, storyBonus=false }) {
 
   for (const statsType of Object.keys(statsMap)) {
     if (rarityStats[statsType] || promotionStats[statsType]) {
-      totalStats[statsMap[statsType].text] = rarityStats[statsType] + promotionStats[statsType] + rarityStats[`${statsType}_growth`] * (level + rank);
+      totalStats[statsMap[statsType].text] = Math.ceil(rarityStats[statsType] + promotionStats[statsType] + rarityStats[`${statsType}_growth`] * (level + rank));
     };
   };
 
