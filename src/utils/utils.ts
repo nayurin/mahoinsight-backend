@@ -547,6 +547,38 @@ export namespace Utils {
     readonly accuracy: number
   }
 
+  export interface UniqueEquipmentCraft {
+    readonly equip_id: number
+    readonly crafted_cost: number
+    readonly reward_type_1: number
+    readonly item_id_1: number
+    readonly consume_num_1: number
+    readonly reward_type_2: number
+    readonly item_id_2: number
+    readonly consume_num_2: number
+  }
+
+  export interface UniqueEquipmentRankup {
+    readonly equip_id: number
+    readonly unique_equip_rank: number
+    readonly unit_level: number
+    readonly crafted_cost: number
+    readonly reward_type_1: number
+    readonly item_id_1: number
+    readonly consume_num_1: number
+    readonly reward_type_2: number
+    readonly item_id_2: number
+    readonly consume_num_2: number
+  }
+
+  export interface UniqueEquipmentEnhanceData {
+    readonly enhance_level: number
+    readonly needed_point: number
+    readonly total_point: number
+    readonly needed_mana: number
+    readonly rank: number
+  }
+
   // Quest
   export interface QuestData {
     readonly quest_id: number

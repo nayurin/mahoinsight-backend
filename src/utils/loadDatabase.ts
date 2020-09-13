@@ -549,6 +549,64 @@ class loadDatabase {
     return data
   }
 
+  fromUniqueEquipmentCraft (): Utils.TableData<Utils.UniqueEquipmentCraft> {
+    let data = {}
+    const querytext = `
+      SELECT
+        equip_id, crafted_cost,
+        reward_type_1, item_id_1, consume_num_1,
+        reward_type_2, item_id_2, consume_num_2
+      FROM unique_equipment_craft
+    `
+    const queryresult = this.db.query(querytext) ?? []
+    for (const _item of queryresult) {
+      const item = _item as Utils.UniqueEquipmentCraft
+      const itemdata = {
+        [item.equip_id]: item
+      }
+      data = {...data, ...itemdata}
+    }
+    return data
+  }
+
+  fromUniqueEquipmentRankup (): Utils.TableData<Utils.UniqueEquipmentRankup> {
+    let data = {}
+    const querytext = `
+      SELECT
+        equip_id, unique_equip_rank, unit_level, crafted_cost,
+        reward_type_1, item_id_1, consume_num_1,
+        reward_type_2, item_id_2, consume_num_2
+      FROM unique_equipment_rankup
+    `
+    const queryresult = this.db.query(querytext) ?? []
+    for (const _item of queryresult) {
+      const item = _item as Utils.UniqueEquipmentRankup
+      const itemdata = {
+        [`${item.equip_id}#${item.unique_equip_rank}`]: item
+      }
+      data = {...data, ...itemdata}
+    }
+    return data
+  }
+
+  fromUniqueEquipmentEnhanceData (): Utils.TableData<Utils.UniqueEquipmentEnhanceData> {
+    let data = {}
+    const querytext = `
+      SELECT
+        enhance_level, needed_point, total_point, needed_mana, rank
+      FROM unique_equipment_enhance_data
+    `
+    const queryresult = this.db.query(querytext) ?? []
+    for (const _item of queryresult) {
+      const item = _item as Utils.UniqueEquipmentEnhanceData
+      const itemdata = {
+        [item.enhance_level]: item
+      }
+      data = {...data, ...itemdata}
+    }
+    return data
+  }
+
   fromQuestData (): Utils.TableData<Utils.QuestData> {
     let data = {}
     const querytext = `

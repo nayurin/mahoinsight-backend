@@ -117,6 +117,18 @@ function cache2File () {
         get: dbLoaded.fromUniqueEquipmentEnhanceRate,
         file: `${filePath}/unique_equipment_enhance_rate.json`
       },
+      // unique_equipment_craft: {
+      //   get: dbLoaded.fromUniqueEquipmentCraft,
+      //   file: `${filePath}/unique_equipment_craft.json`
+      // },
+      unique_equipment_rankup: {
+        get: dbLoaded.fromUniqueEquipmentRankup,
+        file: `${filePath}/unique_equipment_rankup.json`
+      },
+      unique_equipment_enhance_data: {
+        get: dbLoaded.fromUniqueEquipmentEnhanceData,
+        file: `${filePath}/unique_equipment_enhance_data.json`
+      },
       quest_data: {
         get: dbLoaded.fromQuestData,
         file: `${filePath}/quest_data.json`
