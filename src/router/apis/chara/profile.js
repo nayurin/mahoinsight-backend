@@ -1,11 +1,11 @@
-const commons = require(`${__dirname}/../../commons.js`);
+const qs = require('qs')
 const { logger4router } = require(`${__dirname}/../../../log4js`);
 const queryData = require(__dirname + '/../../../utils/sqliteutil.js');
 
 async function respond (ctx, next) {
   try {
-    const data = await commons.parse(ctx);
-    const profile = queryData.queryFromDatabase('select distinct * from unit_data left join unit_profile on unit_data.unit_id=unit_profile.unit_id where unit_data.unit_id=?', data.id)[0];
+    const data = qs.parse(ctx.request.url.split('?')[1])
+    const profile = queryData.queryFromDatabase('select distinct * from unit_data left join unit_profile on unit_data.unit_id=unit_profile.unit_id where unit_data.unit_id=?', `${data.baseid}01`)[0];
     logger4router.debug('<charaProfile> query result:', profile);
     if (profile) {
       ctx.status = 200;
