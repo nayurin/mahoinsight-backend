@@ -7,12 +7,20 @@ async function respond (ctx, next) {
     const data = await commons.parse(ctx);
     const profile = queryData.queryFromDatabase('select distinct * from unit_data left join unit_profile on unit_data.unit_id=unit_profile.unit_id where unit_data.unit_id=?', data.id)[0];
     logger4router.debug('<charaProfile> query result:', profile);
-    ctx.status = 200;
-    ctx.body = {
-      result: 'succeed',
-      data: JSON.stringify(profile)
-    };
-    logger4router.debug('<charaProfile> respond:', ctx.status, ctx.body);
+    if (profile) {
+      ctx.status = 200;
+      ctx.body = {
+        result: 'succeed',
+        data: JSON.stringify(profile)
+      };
+      logger4router.debug('<charaProfile> respond:', ctx.status, ctx.body);
+    } else {
+      ctx.status = 400;
+      ctx.body = {
+        result: 'failed',
+        reason: '无法获取此ID的角色信息'
+      };
+    }
   } catch (e) {
     ctx.status = 400;
     ctx.body = {
