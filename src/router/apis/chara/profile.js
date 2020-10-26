@@ -11,7 +11,7 @@ async function respond (ctx, next) {
       ctx.status = 200;
       ctx.body = {
         result: 'succeed',
-        data: JSON.stringify(profile)
+        data: profile
       };
       logger4router.debug('<charaProfile> respond:', ctx.status, ctx.body);
     } else {
