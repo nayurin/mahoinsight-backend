@@ -5,8 +5,8 @@ const queryData = require(__dirname + '/../../../utils/sqliteutil.js');
 async function respond (ctx, next) {
   try {
     const data = qs.parse(ctx.request.url.split('?')[1])
-    if (!data) {
-      const unitList = queryData.queryFromDatabase('select * from unit_profile').map(el => el.unit_id);
+    if (!Object.keys(data).length) {
+      const unitList = queryData.queryFromDatabase('select * from unit_profile').map(el => (el.unit_id - el.unit_id % 100) / 100);
       logger4router.debug('<charaProfile> query result:', unitList);
       ctx.status = 200;
       ctx.body = {
