@@ -6,7 +6,7 @@ async function respond (ctx, next) {
   try {
     const data = qs.parse(ctx.request.url.split('?')[1])
     if (!Object.keys(data).length) {
-      const unitList = queryData.queryFromDatabase('select * from unit_profile').map(el => (el.unit_id - el.unit_id % 100) / 100);
+      const unitList = queryData.queryFromDatabase('SELECT DISTINCT CAST(SUBSTR(unit_id, 0, 5) AS INTEGER) AS baseid FROM unit_data WHERE unit_id < 180000').map(el => el.baseid);
       logger4router.debug('<charaProfile> query result:', unitList);
       ctx.status = 200;
       ctx.body = {
