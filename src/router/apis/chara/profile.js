@@ -30,7 +30,7 @@ async function respond (ctx, next) {
   try {
     const data = qs.parse(ctx.request.url.split('?')[1])
     if (!Object.keys(data).length) {
-      const unitList = queryData.queryFromDatabase('SELECT DISTINCT CAST(SUBSTR(unit_id, 0, 5) AS INTEGER) AS baseid FROM unit_profile').map(el => el.baseid);
+      const unitList = queryData.queryFromDatabase('SELECT DISTINCT CAST(SUBSTR(unit_id, 0, 5) AS INTEGER) AS baseid, unit_profile.unit_id FROM unit_profile WHERE EXISTS (SELECT * FROM unit_data WHERE unit_data.unit_id = unit_profile.unit_id)').map(el => el.baseid);
       logger4router.debug('<charaProfile> query result:', unitList);
       ctx.status = 200;
       ctx.body = {
