@@ -33,6 +33,27 @@ export namespace Utils {
     readonly score_coefficient: number
   }
 
+  export interface ClanBattle2MapData {
+    readonly id: number
+    readonly clan_battle_id: number
+    readonly difficulty: number
+    readonly lap_num_from: number
+    readonly lap_num_to: number
+    readonly wave_group_id_1: number
+    readonly wave_group_id_2: number
+    readonly wave_group_id_3: number
+    readonly wave_group_id_4: number
+    readonly wave_group_id_5: number
+    readonly score_coefficient_1: number
+    readonly score_coefficient_2: number
+    readonly score_coefficient_3: number
+    readonly score_coefficient_4: number
+    readonly score_coefficient_5: number
+    readonly aura_effect: number
+    readonly rsl_unlock_lap: number
+    readonly phase: number
+  }
+
   export interface ClanBattlePeriod {
     readonly clan_battle_id: number
     readonly period: number

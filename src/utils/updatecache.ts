@@ -17,13 +17,17 @@ function cache2File () {
   const tableMap = (dbLoaded: loadDatabase) => {
     const filePath = `${dirPath}/${dbLoaded.toString()}`
     return {
-      clan_battle_map_data: {
-        get: dbLoaded.fromClanBattleMapData,
-        file: `${filePath}/clan_battle_map_data.json`
-      },
-      clan_battle_boss_group: {
-        get: dbLoaded.fromClanBattleBossGroup,
-        file: `${filePath}/clan_battle_boss_group.json`
+      // clan_battle_map_data: {
+      //   get: dbLoaded.fromClanBattleMapData,
+      //   file: `${filePath}/clan_battle_map_data.json`
+      // },
+      // clan_battle_boss_group: {
+      //   get: dbLoaded.fromClanBattleBossGroup,
+      //   file: `${filePath}/clan_battle_boss_group.json`
+      // },
+      clan_battle_2_map_data: {
+        get: dbLoaded.fromClanBattle2MapData,
+        file: `${filePath}//clan_battle_2_map_data.json`
       },
       clan_battle_period: {
         get: dbLoaded.fromClanBattlePeriod,

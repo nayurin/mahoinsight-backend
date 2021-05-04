@@ -9,6 +9,8 @@ class loadDatabase {
     this.dbfile = dbfile
     this.db = new SQLiteDatabase(dbfile)
   }
+  
+  /* DEPRECATED 
 
   fromClanBattleMapData (): Utils.TableData<Utils.ClanBattleMapData> {
     let data = {}
@@ -38,6 +40,29 @@ class loadDatabase {
       const item = _item as Utils.ClanBattleBossGroup
       const itemdata = {
         [`${item.clan_battle_boss_group_id}#${item.order_num}`]: item
+      }
+      data = {...data, ...itemdata}
+    }
+    return data
+  }
+
+  */
+
+  fromClanBattle2MapData (): Utils.TableData<Utils.ClanBattle2MapData> {
+    let data = {}
+    const querytext = `
+      SELECT 
+        id, clan_battle_id, difficulty, lap_num_from, lap_num_to,
+        wave_group_id_1, wave_group_id_2, wave_group_id_3, wave_group_id_4, wave_group_id_5,
+        score_coefficient_1, score_coefficient_2, score_coefficient_3, score_coefficient_4, score_coefficient_5,
+        aura_effect, rsl_unlock_lap, phase
+      FROM clan_battle_2_map_data
+    `
+    const queryresult = this.db.query(querytext) ?? []
+    for (const _item of queryresult) {
+      const item = _item as Utils.ClanBattle2MapData
+      const itemdata = {
+        [item.id]: item
       }
       data = {...data, ...itemdata}
     }
